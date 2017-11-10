@@ -7,11 +7,6 @@ let messages = {
     {from: "grandma@mail.com", subject: "Fwd: Fwd: Fwd: Check this out", body: "Stay at home mom discovers cure for leg cramps. Doctors hate her"},
     {from: "person@mail.com", subject: "Questionnaire", body: "Take this free quiz win $1000 dollars"} ] };
 
-let MessageStore =  {
-  getInboxMessages: () => messages.inbox,
-  getSentMessages: () => messages.sent
-};
-
 class Message {
   constructor(from, to, subject, body) {
     this.from = from;
@@ -20,5 +15,21 @@ class Message {
     this.body = body;
   }
 }
+
+const messageDraft = new Message();
+
+let MessageStore =  {
+  getInboxMessages: () => messages.inbox,
+  getSentMessages: () => messages.sent,
+  getMessageDraft: () => messageDraft,
+  updateDraftField: function(field, value) { messageDraft.field = value; },
+  sendDraft: function() {
+    messages.sent.push(messageDraft);
+    messageDraft = new Message();
+  }
+};
+
+
+
 
 module.exports = MessageStore;
